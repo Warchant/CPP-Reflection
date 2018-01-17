@@ -12,7 +12,7 @@
 
 #include <type_traits>
 
-#if defined(COMPILER_CLANG) || defined(COMPILER_GNU)
+#if defined(COMPILER_CLANG) && !defined(__APPLE__) || defined(COMPILER_GNU)
 
 #define IsTriviallyDefaultConstructible(x) std::has_trivial_default_constructor<x>::value
 

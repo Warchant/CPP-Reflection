@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.4)
 
 project(MetaRuntime CXX)
 
@@ -161,7 +161,6 @@ if (MSVC)
 else ()
     target_compile_options(MetaRuntime 
         PUBLIC
-        -std=c++11
         -Wno-format-security
     )
 endif ()

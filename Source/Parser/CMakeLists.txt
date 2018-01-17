@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.4)
 
 project(MetaParser CXX)
 
@@ -72,7 +72,7 @@ set(Boost_ALL_NO_LIB ON)
 # disable auto-linking
 add_definitions(-DBOOST_ALL_NO_LIB)
 
-find_package(Boost 1.59.0 REQUIRED 
+find_package(Boost 1.59.0 REQUIRED
     COMPONENTS 
     system
     filesystem
@@ -136,10 +136,6 @@ if (MSVC)
     # normalize slashes
     string(REPLACE "\\" "/" SYSTEM_INCLUDES "${SYSTEM_INCLUDES}")
 else ()
-    target_compile_options(MetaParser
-        PUBLIC -std=c++11
-    )
-
     set(SYSTEM_INCLUDES "/usr/include/c++/${CMAKE_CXX_COMPILER_VERSION}")
 endif ()
 
