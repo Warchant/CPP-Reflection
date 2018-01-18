@@ -1,11 +1,3 @@
-cmake_minimum_required(VERSION 3.4)
-
-project(MetaParser CXX)
-
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../CMake")
-
-include(Precompiled)
-
 set(HEADER_FILES
     Cursor.h
     CursorType.h
@@ -64,44 +56,37 @@ set(SOURCE_FILES
     LanguageTypes/Method.cpp
 )
 
-set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_NO_SYSTEM_PATHS ON)
-set(Boost_ALL_NO_LIB ON)
-
-# disable auto-linking
-add_definitions(-DBOOST_ALL_NO_LIB)
-
 find_package(Boost 1.59.0 REQUIRED
-    COMPONENTS 
+    COMPONENTS
     system
     filesystem
-    program_options
     regex
+    program_options
 )
 
-# add boost includes
-include_directories(${Boost_INCLUDE_DIRS})
-
 find_package(LLVM REQUIRED)
-
-# add LLVM includes
-include_directories(${LLVM_INCLUDE_DIRS})
-
-# allow use of Common and Library directories
-include_directories(.)
-include_directories(..)
-include_directories(../Common)
-include_directories(../Common/Lib)
 
 # header files are superflous, but some IDEs (Visual Studio) don't include
 # them in the solution explorer without them being added to the list of sources
 add_executable(MetaParser ${HEADER_FILES} ${SOURCE_FILES})
 
+target_include_directories(MetaParser PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/..
+        ${CMAKE_CURRENT_SOURCE_DIR}/../Common
+        ${CMAKE_CURRENT_SOURCE_DIR}/../Common/Lib
+
+        ${LLVM_INCLUDE_DIRS}
+
+        ${Boost_INCLUDE_DIRS}
+        )
+
 link_directories(${LLVM_LIBRARY_DIR})
 
-# statically link with Boost & LibClang
-target_link_libraries(MetaParser ${Boost_LIBRARIES} ${LIBCLANG_LIBRARY})
+target_link_libraries(MetaParser
+        ${Boost_LIBRARIES}
+        ${LIBCLANG_LIBRARY}
+        )
 
 set_precompiled_header(MetaParser Precompiled.h Precompiled.cpp)
 

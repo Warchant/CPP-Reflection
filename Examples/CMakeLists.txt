@@ -1,14 +1,3 @@
-cmake_minimum_required(VERSION 2.8.3)
-
-project(MetaTests CXX)
-
-add_subdirectory(../Source/Runtime MetaRuntime)
-add_subdirectory(../Source/Parser MetaParser)
-
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../Source/CMake")
-
-include(MetaParser)
-
 include_directories(${META_RUNTIME_INCLUDE_DIRS})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

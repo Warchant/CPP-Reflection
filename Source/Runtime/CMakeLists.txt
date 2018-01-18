@@ -1,11 +1,3 @@
-cmake_minimum_required(VERSION 3.4)
-
-project(MetaRuntime CXX)
-
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../CMake")
-
-include(Precompiled)
-
 set(HEADER_FILES
     VariantPolicy.h
     Argument.h
@@ -122,12 +114,7 @@ set(SOURCE_FILES
     VariantBase.cpp
 )
 
-set(JSON_SOURCE_FILE "../Common/Lib/json11.cpp")
-
-# allow use of Common and Library directories
-include_directories(..)
-include_directories(../Common)
-include_directories(../Common/Lib)
+set(JSON_SOURCE_FILE "${CMAKE_SOURCE_DIR}/Source/Common/Lib/json11.cpp")
 
 # header files are superflous, but some IDEs (Visual Studio) don't include
 # them in the solution explorer without them being added to the list of sources
@@ -138,6 +125,13 @@ add_library(MetaRuntime STATIC
     # compile the JSON library
     ${JSON_SOURCE_FILE}
 )
+
+# allow use of Common and Library directories
+target_include_directories(MetaRuntime PUBLIC
+        ${CMAKE_SOURCE_DIR}/Source
+        ${CMAKE_SOURCE_DIR}/Source/Common
+        ${CMAKE_SOURCE_DIR}/Source/Common/Lib
+        )
 
 set_precompiled_header(MetaRuntime 
     Precompiled.h 
